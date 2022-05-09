@@ -130,7 +130,7 @@ func (uconn *UConn) SetSessionState(session *ClientSessionState) error {
 			if err != nil {
 				return err
 			}
-			uconn.HandshakeState.Hello.SessionId = sessionID[:]
+			uconn.HandshakeState.Hello.SessionId = []byte("") //sessionID[:]
 		}
 		return nil
 	}
