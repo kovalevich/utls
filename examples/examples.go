@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	http "github.com/kovalevich/fhttp"
+	http "github.com/Danny-Dasilva/fhttp"
 	tls "github.com/kovalevich/utls"
 
 	"golang.org/x/net/http2"

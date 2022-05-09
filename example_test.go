@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 
-	http "github.com/kovalevich/fhttp"
+	http "github.com/Danny-Dasilva/fhttp"
 )
 
 // zeroSource is an io.Reader that returns an unlimited number of zero bytes.

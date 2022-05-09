@@ -8,7 +8,7 @@ require (
 )
 
 require (
-	github.com/kovalevich/fhttp v0.0.0-20220418170016-5ea1c560e6a8 // indirect
+	github.com/Danny-Dasilva/fhttp v0.0.0-20220418170016-5ea1c560e6a8 // indirect
 	github.com/dsnet/compress v0.0.1 // indirect
 	gitlab.com/yawning/bsaes.git v0.0.0-20190805113838-0a714cd429ec // indirect
 	gitlab.com/yawning/utls.git v0.0.12-1 // indirect
