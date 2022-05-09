@@ -423,7 +423,7 @@ func (uconn *UConn) ApplyConfig() error {
 
 func (uconn *UConn) MarshalClientHello() error {
 	hello := uconn.HandshakeState.Hello
-	headerLength := 2 + 32 + 1 + len(hello.SessionId) +
+	headerLength := 2 + 32 + 1 + //len(hello.SessionId) +
 		2 + len(hello.CipherSuites)*2 +
 		1 + len(hello.CompressionMethods)
 
