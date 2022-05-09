@@ -1,10 +1,10 @@
-github.com/Danny-Dasilva/fhttp v0.0.0-20220417163313-b8852575789f h1:qL+oS7ndijqD4bNUzHjK3hsNO0xT0Tp0Rzz9HpRD2ck=
-github.com/Danny-Dasilva/fhttp v0.0.0-20220417163313-b8852575789f/go.mod h1:dpKEZxxMnsE7reVqNDjp7g3iq3Ej5/VxCdVuaju97OU=
-github.com/Danny-Dasilva/fhttp v0.0.0-20220418170016-5ea1c560e6a8 h1:K/qCmMCMhnKGS+q2KOSpYO+UpS7xLKlDX+HgX6LbwsM=
-github.com/Danny-Dasilva/fhttp v0.0.0-20220418170016-5ea1c560e6a8/go.mod h1:t534vrahRNn9ax1tRiYSUvwJSa9jWaYYgETlfodBPm4=
-github.com/Danny-Dasilva/utls v0.0.0-20220418055514-7c61e0dbb504/go.mod h1:A2g8gPTJWDD3Y4iCTNon2vG3VcjdTBcgWBlZtopfNxU=
-github.com/Danny-Dasilva/utls v1.0.0 h1:6XQHSjDmeBCF9sPq8p2zMVGq7Ud3rTD2q88Fw8Tz1tA=
-github.com/Danny-Dasilva/utls v1.0.0/go.mod h1:tz9gX959MEFfFN5whTIocCLUG57WiILqtdVxI8c6Wj0=
+github.com/kovalevich/fhttp v0.0.0-20220417163313-b8852575789f h1:qL+oS7ndijqD4bNUzHjK3hsNO0xT0Tp0Rzz9HpRD2ck=
+github.com/kovalevich/fhttp v0.0.0-20220417163313-b8852575789f/go.mod h1:dpKEZxxMnsE7reVqNDjp7g3iq3Ej5/VxCdVuaju97OU=
+github.com/kovalevich/fhttp v0.0.0-20220418170016-5ea1c560e6a8 h1:K/qCmMCMhnKGS+q2KOSpYO+UpS7xLKlDX+HgX6LbwsM=
+github.com/kovalevich/fhttp v0.0.0-20220418170016-5ea1c560e6a8/go.mod h1:t534vrahRNn9ax1tRiYSUvwJSa9jWaYYgETlfodBPm4=
+github.com/kovalevich/utls v0.0.0-20220418055514-7c61e0dbb504/go.mod h1:A2g8gPTJWDD3Y4iCTNon2vG3VcjdTBcgWBlZtopfNxU=
+github.com/kovalevich/utls v1.0.0 h1:6XQHSjDmeBCF9sPq8p2zMVGq7Ud3rTD2q88Fw8Tz1tA=
+github.com/kovalevich/utls v1.0.0/go.mod h1:tz9gX959MEFfFN5whTIocCLUG57WiILqtdVxI8c6Wj0=
 github.com/andybalholm/brotli v1.0.3/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/dsnet/compress v0.0.1 h1:PlZu0n3Tuv04TzpfPbrnI0HW/YwodEXDS+oPKahKF0Q=
 github.com/dsnet/compress v0.0.1/go.mod h1:Aw8dCMJ7RioblQeTqt88akK31OvO8Dhf5JflhBbQEHo=
