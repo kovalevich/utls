@@ -466,8 +466,8 @@ func (uconn *UConn) MarshalClientHello() error {
 
 	binary.Write(bufferedWriter, binary.BigEndian, hello.Random)
 
-	binary.Write(bufferedWriter, binary.BigEndian, uint8(len(hello.SessionId)))
-	binary.Write(bufferedWriter, binary.BigEndian, hello.SessionId)
+	binary.Write(bufferedWriter, binary.BigEndian, 0)
+	//binary.Write(bufferedWriter, binary.BigEndian, hello.SessionId)
 
 	binary.Write(bufferedWriter, binary.BigEndian, uint16(len(hello.CipherSuites)<<1))
 	for _, suite := range hello.CipherSuites {
