@@ -141,7 +141,7 @@ func (uconn *UConn) SetSessionState(session *ClientSessionState) error {
 			if err != nil {
 				return err
 			}
-			uconn.HandshakeState.Hello.SessionId = []byte("") //sessionID[:]
+			uconn.HandshakeState.Hello.SessionId = sessionID[:]
 		}
 		return nil
 	}
@@ -490,7 +490,7 @@ func (uconn *UConn) ApplyConfig() error {
 
 func (uconn *UConn) MarshalClientHello() error {
 	hello := uconn.HandshakeState.Hello
-	headerLength := 2 + 32 + 1 + //len(hello.SessionId) +
+	headerLength := 2 + 32 + 1 + len(hello.SessionId) +
 		2 + len(hello.CipherSuites)*2 +
 		1 + len(hello.CompressionMethods)
 
@@ -533,8 +533,8 @@ func (uconn *UConn) MarshalClientHello() error {
 
 	binary.Write(bufferedWriter, binary.BigEndian, hello.Random)
 
-	binary.Write(bufferedWriter, binary.BigEndian, 0)
-	//binary.Write(bufferedWriter, binary.BigEndian, hello.SessionId)
+	binary.Write(bufferedWriter, binary.BigEndian, uint8(len(hello.SessionId)))
+	binary.Write(bufferedWriter, binary.BigEndian, hello.SessionId)
 
 	binary.Write(bufferedWriter, binary.BigEndian, uint16(len(hello.CipherSuites)<<1))
 	for _, suite := range hello.CipherSuites {
