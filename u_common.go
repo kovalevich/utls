@@ -21,7 +21,8 @@ import (
 const (
 	utlsTypeEncryptedExtensions uint8 = 8 // implemention incomplete by crypto/tls
 	// https://datatracker.ietf.org/doc/html/rfc8879#section-7.2
-	utlsTypeCompressedCertificate uint8 = 25
+	utlsTypeCompressedCertificate uint8  = 25
+	fakeCertCompressionAlgs       uint16 = 0x001b
 )
 
 // TLS

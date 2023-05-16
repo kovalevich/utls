@@ -356,55 +356,6 @@ func (e *ALPNExtension) Read(b []byte) (int, error) {
 	return e.Len(), io.EOF
 }
 
-// ApplicationSettingsExtension represents the TLS ALPS extension.
-// At the time of this writing, this extension is currently a draft:
-// https://datatracker.ietf.org/doc/html/draft-vvv-tls-alps-01
-type ApplicationSettingsExtension struct {
-	SupportedProtocols []string
-}
-
-func (e *ApplicationSettingsExtension) writeToUConn(uc *UConn) error {
-	return nil
-}
-
-func (e *ApplicationSettingsExtension) Len() int {
-	bLen := 2 + 2 + 2 // Type + Length + ALPS Extension length
-	for _, s := range e.SupportedProtocols {
-		bLen += 1 + len(s) // Supported ALPN Length + actual length of protocol
-	}
-	return bLen
-}
-
-func (e *ApplicationSettingsExtension) Read(b []byte) (int, error) {
-	if len(b) < e.Len() {
-		return 0, io.ErrShortBuffer
-	}
-
-	// Read Type.
-	b[0] = byte(utlsExtensionApplicationSettings >> 8)   // hex: 44 dec: 68
-	b[1] = byte(utlsExtensionApplicationSettings & 0xff) // hex: 69 dec: 105
-
-	lengths := b[2:] // get the remaining buffer without Type
-	b = b[6:]        // set the buffer to the buffer without Type, Length and ALPS Extension Length (so only the Supported ALPN list remains)
-
-	stringsLength := 0
-	for _, s := range e.SupportedProtocols {
-		l := len(s)            // Supported ALPN Length
-		b[0] = byte(l)         // Supported ALPN Length in bytes hex: 02 dec: 2
-		copy(b[1:], s)         // copy the Supported ALPN as bytes to the buffer
-		b = b[1+l:]            // set the buffer to the buffer without the Supported ALPN Length and Supported ALPN (so we can continue to the next protocol in this loop)
-		stringsLength += 1 + l // Supported ALPN Length (the field itself) + Supported ALPN Length (the value)
-	}
-
-	lengths[2] = byte(stringsLength >> 8) // ALPS Extension Length hex: 00 dec: 0
-	lengths[3] = byte(stringsLength)      // ALPS Extension Length hex: 03 dec: 3
-	stringsLength += 2                    // plus ALPS Extension Length field length
-	lengths[0] = byte(stringsLength >> 8) // Length hex:00 dec: 0
-	lengths[1] = byte(stringsLength)      // Length hex: 05 dec: 5
-
-	return e.Len(), io.EOF
-}
-
 type SCTExtension struct {
 }
 
@@ -490,6 +441,17 @@ func (e *GenericExtension) Read(b []byte) (int, error) {
 	if len(e.Data) > 0 {
 		copy(b[4:], e.Data)
 	}
+	//if e.Id != 17513 {
+	//	b[2] = byte(len(e.Data) >> 8)
+	//	b[3] = byte(len(e.Data))
+	//	if len(e.Data) > 0 {
+	//		copy(b[4:], e.Data)
+	//	}
+	//} else {
+	//	if len(e.Data) > 0 {
+	//		copy(b[2:], e.Data)
+	//	}
+	//}
 	return e.Len(), io.EOF
 }
 
@@ -983,5 +945,85 @@ func (e *FakeDelegatedCredentialsExtension) Read(b []byte) (int, error) {
 		b[6+2*i] = byte(sigAndHash >> 8)
 		b[7+2*i] = byte(sigAndHash)
 	}
+	return e.Len(), io.EOF
+}
+
+type FakeCertCompressionAlgsExtension struct {
+	Methods []CertCompressionAlgo
+}
+
+func (e *FakeCertCompressionAlgsExtension) writeToUConn(uc *UConn) error {
+	return nil
+}
+
+func (e *FakeCertCompressionAlgsExtension) Len() int {
+	return 4 + 1 + (2 * len(e.Methods))
+}
+
+func (e *FakeCertCompressionAlgsExtension) Read(b []byte) (int, error) {
+	if len(b) < e.Len() {
+		return 0, io.ErrShortBuffer
+	}
+	// https://tools.ietf.org/html/draft-balfanz-tls-channelid-00
+	b[0] = byte(fakeCertCompressionAlgs >> 8)
+	b[1] = byte(fakeCertCompressionAlgs & 0xff)
+
+	extLen := 2 * len(e.Methods)
+	if extLen > 255 {
+		return 0, errors.New("too many certificate compression methods")
+	}
+
+	b[2] = byte((extLen + 1) >> 8)
+	b[3] = byte((extLen + 1) & 0xff)
+	b[4] = byte(extLen)
+
+	i := 5
+	for _, compMethod := range e.Methods {
+		b[i] = byte(compMethod >> 8)
+		b[i+1] = byte(compMethod)
+		i += 2
+	}
+	return e.Len(), io.EOF
+}
+
+type ApplicationSettingsExtension struct {
+	SupportedALPNList []string
+}
+
+func (e *ApplicationSettingsExtension) writeToUConn(uc *UConn) error {
+	return nil
+}
+
+func (e *ApplicationSettingsExtension) Len() int {
+	result := 6 //id + first length + second length
+	for _, element := range e.SupportedALPNList {
+		result += 1 + len(element) //byte for string length + allocation for string in bytes
+	}
+	return result
+}
+
+func (e *ApplicationSettingsExtension) Read(b []byte) (int, error) {
+	if len(b) < e.Len() {
+		return 0, io.ErrShortBuffer
+	}
+
+	b[0] = byte(extensionApplicationSettings >> 8)
+	b[1] = byte(0x69)
+	currentIndex := 6
+
+	for _, alpn := range e.SupportedALPNList {
+		b[currentIndex] = byte(len(alpn)) //set length of string in bytes
+		currentIndex++
+		for _, char := range alpn {
+			b[currentIndex] = byte(char) //convert char to byte
+			currentIndex++
+		}
+	}
+
+	b[2] = 0x00
+	b[3] = byte(e.Len() - 4) //len minus id and itself (2+2)
+	b[4] = 0x00
+	b[5] = byte(e.Len() - 6) //len minus id big length and itself 5 (2+2+2)
+
 	return e.Len(), io.EOF
 }
