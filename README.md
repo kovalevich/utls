@@ -231,7 +231,7 @@ Then it can be used just like normal extension:
 ```
 
 # Client Hello IDs
-See full list of `clientHelloID` values [here](https://godoc.org/github.com/refraction-networking/utls#ClientHelloID).  
+See full list of `clientHelloID` values [here](https://godoc.org/github.com/kovalevich/utls#ClientHelloID).  
 There are different behaviors you can get, depending  on your `clientHelloID`:
 
 1. ```utls.HelloRandomized``` adds/reorders extensions, ciphersuites, etc. randomly.  
@@ -269,7 +269,7 @@ Here's how default "crypto/tls" is typically used:
     //...
 ```
 To start using using uTLS:
-1. Import this library (e.g. `import tls "github.com/refraction-networking/utls"`)
+1. Import this library (e.g. `import tls "github.com/kovalevich/utls"`)
 2. Pick the [Client Hello ID](#client-hello-ids)
 3. Simply substitute `tlsConn := tls.Client(dialConn, &config)`
 with `tlsConn := tls.UClient(dialConn, &config, tls.clientHelloID)`  
