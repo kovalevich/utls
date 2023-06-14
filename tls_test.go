@@ -22,7 +22,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kavalevich/utls/testenv"
+	"github.com/kovalevich/utls/testenv"
 )
 
 var rsaCertPEM = `-----BEGIN CERTIFICATE-----
