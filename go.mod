@@ -1,4 +1,4 @@
-module github.com/kavalevich/utls
+module github.com/kovalevich/utls
 
 go 1.19
 
